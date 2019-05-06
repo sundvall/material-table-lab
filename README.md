@@ -1,5 +1,93 @@
 # MaterialTable
 
+An implementation of angular gui-components to display dynamic data to a readymade table.
+
+The code follows the example of [https://blog.angular-university.io/angular-material-data-table/](https://blog.angular-university.io/angular-material-data-table/)
+
+## TLDR
+
+Readymade gui-components for dynamic tables are imported from 'angular-material' and connected to hardcoded data that may be replaced with dynamic data.
+
+## Usage
+
+```cmd
+yarn
+ng serve
+```
+
+Open http://localhost:4200 and read console output.
+
+## The setup
+The dependencies to material are collected into a module and imported to the app.module.ts. 
+```javascript
+imports: [
+    // ...
+    MaterialCollectionModule,
+    MatInputModule,
+    // ...
+  ],
+```
+
+... where the MaterialCollectionModule imports selected components from the angular-material package.
+```javascript
+// src/app/shared/material-collection.module.ts
+import {
+  MatInputModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSortModule,
+  MatTableModule,
+  MatButtonModule,
+  MatCheckboxModule
+} from '@angular/material';
+
+@NgModule({
+  imports: [
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatTableModule,
+    MatButtonModule,
+    MatCheckboxModule
+  ],
+  exports: [
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatSortModule,
+    MatTableModule,
+    MatButtonModule,
+    MatCheckboxModule
+  ]
+})
+```
+### Component connected to 'dataSource'
+The 'mat-table-all.component.ts' connects to a 'datasource.ts' and creates the template.
+```javascript 
+// mat-table-all.component.html
+...
+<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+...
+```
+Where 'dataSource' connects to the service proving content for the table.
+```javascript 
+// mat-table-all.component.ts
+import { DataProdSrc } from '../../services/data-prod-src.datasource';
+/* ...
+... */
+export class MatTableAllComponent implements OnInit, AfterViewInit {
+  dataSource: DataProdSrc;
+```
+The 'dataSource' may connect to any endpoint.
+```javascript
+// This method returns an asynchronous response
+getDataFrom(searchStr: string): Observable<DataExample[]> { ...
+```
+## General usage:
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.6.
 
 ## Development server

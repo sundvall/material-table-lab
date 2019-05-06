@@ -1,66 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import DataExample from '../shared/types/data-example.model';
 /**
- * Get list of items from server.
- * ref:
- * https://github.com/angular/in-memory-web-api/blob/master/src/app/http-client-hero.service.ts
+ * This service may provide dynamic data from an endpoint.
  */
 
 @Injectable()
 export class DataProdService {
-  private url = 'https://tlvcodecamp-test.azurewebsites.net/api/v1/Medprod/';
-  // private url = '/api/v1/Medprod/';
-  // private url = '/some/endpoint/responseExample/';
-  constructor(/*private http: HttpClient*/) {}
+  private url = '/some/endpoint/responseExample/';
+  constructor(private http: HttpClient) {}
 
-  private handleError(error: any) {
-    console.error('example.service: An error occurred', error); // for demo purposes only
-    return throwError(error);
-  }
-
-  /*getMedProd(): Observable<MedProd[]> {
-    return this.http
-      .get<MedProd[]>(this.url)
-      .pipe(catchError(this.handleError));
-  }*/
-
-  // med-prod-MedProdAssembly.datasource
-  // courseId: number,
-  // filter: string,
-  // sortDirection: string,
-  // pageIndex: number,
-  // pageSize: number
-
-  // med-prod-service.getDataFrom({ courseId, filter, sortDirection, pageIndex, pageSize })
-  // id: uber,
-  // name = 'a',
-  // filter = '',
-  // sortOrder = 'asc',
-  // pageNumber = 0,
-  // pageSize = 3
-  // getDataFrom(
-  //     id: uber,
-  //     name = 'a',
-  //     filter = '',
-  //     sortOrder = 'asc',
-  //     pageNumber = 0,
-  //     pageSize = 3
-  //   ): Observable<MedProd[]> {
   getDataFrom(searchStr: string): Observable<DataExample[]> {
-    // examplifies how to get the data where id matches the string
-    // const params = new HttpParams().set('name', 'a');
-    // .set('id', id.toString())
-    // .set('filter', filter)
-    // .set('sortOrder', sortOrder)
-    // .set('pageSize', pageSize.toString())
-    // .set('pageNumber', pageNumber.toString());
-    // console.log('med-prod-service: getDataFrom', params);
-    // return this.http
-    //   .get<MedProd[]>(this.url)
-    //   .pipe(catchError(this.handleError));
+    const url = `${this.url}${searchStr}`;
+    console.log('get from url:', url);
     const dataExample: DataExample[] = [
       {
         id: 1,
@@ -136,12 +89,4 @@ export class DataProdService {
 
     return of(dataExample);
   }
-
-  /*getDataFromName(name: string): Observable<MedProd[]> {
-    // examplifies how to get the data with a query string
-    const params = new HttpParams().set('name', name);
-    return this.http
-      .get<MedProd[]>(this.url, { params })
-      .pipe(catchError(this.handleError));
-  }*/
 }

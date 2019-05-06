@@ -6,18 +6,14 @@ import { DataProdService } from './data-prod.service';
 
 export class DataProdSrc implements DataSource<DataExample> {
   private dataExampleBehaviourSubject = new BehaviorSubject<DataExample[]>([]);
-
   private loadingSubject = new BehaviorSubject<boolean>(false);
-
   public loading$ = this.loadingSubject.asObservable();
 
   constructor(private dataProdService: DataProdService) {}
 
   loadProducts(searchStr) {
     console.log('data-prod-src:search:', searchStr);
-
     this.loadingSubject.next(true);
-
     this.dataProdService
       .getDataFrom(searchStr)
       .pipe(
@@ -28,25 +24,6 @@ export class DataProdSrc implements DataSource<DataExample> {
         this.dataExampleBehaviourSubject.next(dataExamples)
       );
   }
-  // loadProducts(
-  //   courseId: number,
-  //   filter = '',
-  //   sortDirection = 'asc',
-  //   pageIndex = 0,
-  //   pageSize = 3
-  // ) {
-  //   this.loadingSubject.next(true);
-
-  //   this.dataProdService
-  //     .getDataFrom(courseId, filter, sortDirection, pageIndex, pageSize)
-  //     .pipe(
-  //       catchError(() => of([])),
-  //       finalize(() => this.loadingSubject.next(false))
-  //     )
-  //     .subscribe(dataExamples =>
-  //       this.dataExampleBehaviourSubject.next(dataExamples)
-  //     );
-  // }
 
   connect(collectionViewer: CollectionViewer): Observable<DataExample[]> {
     console.log('data-prod-src:connect: Connecting data source');
